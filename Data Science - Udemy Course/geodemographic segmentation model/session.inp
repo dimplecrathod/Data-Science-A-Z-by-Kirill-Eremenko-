@@ -1,0 +1,44 @@
+# Log started 2018-09-21 18:47
+# Record of session commands.  Please note that this will
+# likely require editing if it is to be run as a script.
+open \
+  "C:\Users\EliteBook\Desktop\Data Science\Data Science - Udemy Course\geodemographic segmentation model\Churn-Modelling.csv"
+dummify Geography
+rename 15 France
+rename 16 Spain
+rename 17 Germany
+dummify Gender
+rename 18 Female
+rename 19 Male
+# model 1
+logit Exited 0 CreditScore Age Balance NumOfProducts HasCrCard \
+  IsActiveMember EstimatedSalary Female Spain Germany --p-values
+# model 2
+logit Exited 0 CreditScore Age Balance NumOfProducts HasCrCard \
+  IsActiveMember EstimatedSalary Female Germany --p-values
+# model 3
+logit Exited 0 CreditScore Age Balance NumOfProducts IsActiveMember \
+  EstimatedSalary Female Germany --p-values
+# model 4
+logit Exited 0 CreditScore Age Balance NumOfProducts IsActiveMember \
+  Female Germany --p-values
+# model 5
+logit Exited 0 CreditScore Age Balance NumOfProducts IsActiveMember \
+  Female Germany Tenure --p-values
+# model 6
+logit Exited 0 CreditScore Age Balance NumOfProducts IsActiveMember \
+  Female Germany --p-values
+series Log_Balance = NA
+Log_balance = log10(Balance+1)
+# model 7
+logit Exited 0 CreditScore Age NumOfProducts IsActiveMember Female \
+  Germany --p-values
+# model 8
+logit Exited 0 CreditScore Age NumOfProducts IsActiveMember Female \
+  Germany Log_balance --p-values
+# model 9
+logit Exited 0 CreditScore Age NumOfProducts IsActiveMember Female \
+  Germany Log_balance Tenure --p-values
+# store \
+  "C:\Users\EliteBook\Desktop\Data Science\Data Science - Udemy Course\geodemographic segmentation model\Churn-Modelling.gdt" \
+  --gzipped=1

@@ -1,0 +1,30 @@
+# Log started 2018-09-21 19:43
+# Record of session commands.  Please note that this will
+# likely require editing if it is to be run as a script.
+open \
+  "C:\Users\EliteBook\Desktop\Data Science\Data Science - Udemy Course\geodemographic segmentation model\Churn-Modelling.gdt"
+delete Log_Balance
+WealthAccumulation=Balance/Age
+# model 1
+logit Exited 0 CreditScore Age Tenure NumOfProducts IsActiveMember Female \
+  Germany WealthAccumulation Log_balance --p-values
+vif
+# model 2
+logit Exited 0 CreditScore Age Tenure NumOfProducts IsActiveMember Female \
+  Germany WealthAccumulation --p-values
+vif
+Log_WA = log10(Balance/Age +1)
+# model 3
+logit Exited 0 CreditScore Age Tenure NumOfProducts IsActiveMember Female \
+  Germany Log_balance Log_WA --p-values
+vif
+# model 4
+logit Exited 0 CreditScore Age Tenure NumOfProducts IsActiveMember Female \
+  Log_WA Germany --p-values
+# model 5
+logit Exited 0 CreditScore Age Tenure NumOfProducts IsActiveMember Female \
+  Germany Log_balance --p-values
+corr Log_WA Log_balance WealthAccumulation Age
+# store \
+  "C:\Users\EliteBook\Desktop\Data Science\Data Science - Udemy Course\geodemographic segmentation model\Churn-Modelling.gdt" \
+  --gzipped
